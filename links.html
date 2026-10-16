@@ -162,6 +162,7 @@
       <h2>Tip the Band</h2>
       <div class="grid">
         <a href="https://venmo.com/Kendall-Hunt">Venmo<small>@Kendall-Hunt</small></a>
+        <a href="https://cash.app/$KAHunt8">Cash App<small>$KAHunt8</small></a>
       </div>
     </div>
 
@@ -182,13 +183,16 @@
     </footer>
   </div>
 <script>
+  function go(id) {
+    document.querySelectorAll('.view').forEach(function (v) { v.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
   document.querySelectorAll('[data-go]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      document.querySelectorAll('.view').forEach(function (v) { v.classList.remove('active'); });
-      document.getElementById(el.getAttribute('data-go')).classList.add('active');
-      window.scrollTo(0, 0);
-    });
+    el.addEventListener('click', function () { go(el.getAttribute('data-go')); });
   });
+  var h = location.hash.replace('#', '');
+  if (h && document.getElementById(h)) { go(h); }
 </script>
 </body>
 </html>
