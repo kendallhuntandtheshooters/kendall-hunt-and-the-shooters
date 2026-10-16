@@ -64,7 +64,7 @@ a:hover { color: #f5c168; }
 .hero {
   min-height: 92vh;
   display: flex; align-items: center; justify-content: center; text-align: center;
-  background: linear-gradient(rgba(13,11,8,0.62), rgba(13,11,8,0.88)), url("images/hero.jpg") center/cover no-repeat;
+  background: radial-gradient(ellipse 65% 50% at 50% 48%, rgba(13,11,8,0.72) 0%, rgba(13,11,8,0) 70%), linear-gradient(rgba(13,11,8,0.55), rgba(13,11,8,0.82)), url("images/skull-texas.png") center/contain no-repeat, #0d0b08;
   padding: 6rem 1.25rem 4rem;
 }
 .hero-inner { max-width: 760px; }
