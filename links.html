@@ -46,6 +46,53 @@
     font-size: 0.9rem;
     margin-bottom: 28px;
   }
+  .view { display: none; }
+  .view.active { display: block; }
+  .door {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 22px 20px;
+    margin-bottom: 14px;
+    border: 2px solid var(--amber);
+    border-radius: 16px;
+    background: transparent;
+    color: var(--ink);
+    font-size: 1.25rem;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, color 0.15s;
+  }
+  .door small {
+    display: block;
+    font-weight: 400;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .door .chev { font-size: 1.6rem; color: var(--amber); }
+  .door:hover, .door:active { background: var(--amber); color: #14100a; }
+  .door:hover small, .door:active small { color: #14100a; }
+  .door:hover .chev, .door:active .chev { color: #14100a; }
+  .back {
+    display: inline-block;
+    margin-bottom: 20px;
+    background: none;
+    border: none;
+    color: var(--amber);
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 8px 4px;
+  }
+  .view h2 {
+    font-family: "Arial Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -93,22 +140,55 @@
     <p class="kicker">Forney, Texas</p>
     <h1>Kendall Hunt<br>&amp; The Shooters</h1>
     <p class="tagline">Texas country &amp; red dirt from Forney, Texas.</p>
-    <div class="grid">
-      <a href="https://www.facebook.com/KendallHuntandtheShooters">Facebook<small>shows &amp; updates</small></a>
-      <a href="https://www.instagram.com/kendallhuntandtheshooters">Instagram<small>behind the scenes</small></a>
-      <a href="https://youtube.com/@kendallhuntandtheshooters">YouTube<small>live clips</small></a>
-      <a href="https://venmo.com/Kendall-Hunt">Venmo<small>tip the band</small></a>
-      <a href="https://shop.kendallhuntandtheshooters.com">Merch<small>shirts &amp; hats</small></a>
-      <a href="https://open.spotify.com/artist/64DI5R9bbIJTLD8GgX17do">Spotify<small>follow us</small></a>
-      <a href="https://music.apple.com/us/artist/kendall-hunt-and-the-shooters/1592319567">Apple Music<small>listen</small></a>
-      <a href="https://kendallhuntandtheshooters.com/#shows">Shows<small>come see us</small></a>
-      <a href="mailto:booking@kendallhuntandtheshooters.com">Book Us<small>bars &amp; parties</small></a>
+
+    <div class="view active" id="home">
+      <button class="door" data-go="socials"><span>Follow the Band<small>Facebook, Instagram, YouTube</small></span><span class="chev">›</span></button>
+      <button class="door" data-go="tips"><span>Tip the Band<small>Venmo &amp; more</small></span><span class="chev">›</span></button>
+      <button class="door" data-go="more"><span>More<small>Merch, shows, booking</small></span><span class="chev">›</span></button>
     </div>
+
+    <div class="view" id="socials">
+      <button class="back" data-go="home">‹ Back</button>
+      <h2>Follow the Band</h2>
+      <div class="grid">
+        <a href="https://www.facebook.com/KendallHuntandtheShooters">Facebook<small>shows &amp; updates</small></a>
+        <a href="https://www.instagram.com/kendallhuntandtheshooters">Instagram<small>behind the scenes</small></a>
+        <a href="https://youtube.com/@kendallhuntandtheshooters">YouTube<small>live clips</small></a>
+      </div>
+    </div>
+
+    <div class="view" id="tips">
+      <button class="back" data-go="home">‹ Back</button>
+      <h2>Tip the Band</h2>
+      <div class="grid">
+        <a href="https://venmo.com/Kendall-Hunt">Venmo<small>@Kendall-Hunt</small></a>
+      </div>
+    </div>
+
+    <div class="view" id="more">
+      <button class="back" data-go="home">‹ Back</button>
+      <h2>More</h2>
+      <div class="grid">
+        <a href="https://shop.kendallhuntandtheshooters.com">Merch<small>shirts &amp; hats</small></a>
+        <a href="https://open.spotify.com/artist/64DI5R9bbIJTLD8GgX17do">Spotify<small>follow us</small></a>
+        <a href="https://music.apple.com/us/artist/kendall-hunt-and-the-shooters/1592319567">Apple Music<small>listen</small></a>
+        <a href="https://kendallhuntandtheshooters.com/#shows">Shows<small>come see us</small></a>
+        <a href="mailto:booking@kendallhuntandtheshooters.com">Book Us<small>bars &amp; parties</small></a>
+      </div>
+    </div>
+
     <footer>
       <a href="https://kendallhuntandtheshooters.com">kendallhuntandtheshooters.com</a>
     </footer>
   </div>
-<script data-goatcounter="https://kendallhunt.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+<script>
+  document.querySelectorAll('[data-go]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      document.querySelectorAll('.view').forEach(function (v) { v.classList.remove('active'); });
+      document.getElementById(el.getAttribute('data-go')).classList.add('active');
+      window.scrollTo(0, 0);
+    });
+  });
+</script>
 </body>
 </html>
