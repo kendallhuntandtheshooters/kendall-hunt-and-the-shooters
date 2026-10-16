@@ -53,7 +53,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    padding: 22px 20px;
+    padding: 20px;
     margin-bottom: 14px;
     border: 2px solid var(--amber);
     border-radius: 16px;
@@ -64,6 +64,7 @@
     font-family: inherit;
     cursor: pointer;
     text-align: left;
+    text-decoration: none;
     transition: background 0.15s, color 0.15s;
   }
   .door small {
@@ -97,6 +98,11 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+  }
+  .grid.two {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 340px;
+    margin: 0 auto;
   }
   .grid a {
     aspect-ratio: 1 / 1;
@@ -143,8 +149,10 @@
 
     <div class="view active" id="home">
       <button class="door" data-go="socials"><span>Follow the Band<small>Facebook, Instagram, YouTube</small></span><span class="chev">›</span></button>
-      <button class="door" data-go="tips"><span>Tip the Band<small>Venmo &amp; more</small></span><span class="chev">›</span></button>
-      <button class="door" data-go="more"><span>More<small>Merch, shows, booking</small></span><span class="chev">›</span></button>
+      <button class="door" data-go="tips"><span>Tip the Band<small>Venmo &amp; Cash App</small></span><span class="chev">›</span></button>
+      <a class="door" href="https://shop.kendallhuntandtheshooters.com"><span>Merch<small>Shirts, hats &amp; more</small></span><span class="chev">›</span></a>
+      <button class="door" data-go="music"><span>Our Music<small>Spotify &amp; Apple Music</small></span><span class="chev">›</span></button>
+      <button class="door" data-go="booking"><span>Booking &amp; Shows<small>Book us, upcoming shows</small></span><span class="chev">›</span></button>
     </div>
 
     <div class="view" id="socials">
@@ -160,19 +168,25 @@
     <div class="view" id="tips">
       <button class="back" data-go="home">‹ Back</button>
       <h2>Tip the Band</h2>
-      <div class="grid">
+      <div class="grid two">
         <a href="https://venmo.com/Kendall-Hunt">Venmo<small>@Kendall-Hunt</small></a>
         <a href="https://cash.app/$KAHunt8">Cash App<small>$KAHunt8</small></a>
       </div>
     </div>
 
-    <div class="view" id="more">
+    <div class="view" id="music">
       <button class="back" data-go="home">‹ Back</button>
-      <h2>More</h2>
-      <div class="grid">
-        <a href="https://shop.kendallhuntandtheshooters.com">Merch<small>shirts &amp; hats</small></a>
+      <h2>Our Music</h2>
+      <div class="grid two">
         <a href="https://open.spotify.com/artist/64DI5R9bbIJTLD8GgX17do">Spotify<small>follow us</small></a>
         <a href="https://music.apple.com/us/artist/kendall-hunt-and-the-shooters/1592319567">Apple Music<small>listen</small></a>
+      </div>
+    </div>
+
+    <div class="view" id="booking">
+      <button class="back" data-go="home">‹ Back</button>
+      <h2>Booking &amp; Shows</h2>
+      <div class="grid two">
         <a href="https://kendallhuntandtheshooters.com/#shows">Shows<small>come see us</small></a>
         <a href="mailto:booking@kendallhuntandtheshooters.com">Book Us<small>bars &amp; parties</small></a>
       </div>
