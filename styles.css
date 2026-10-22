@@ -64,7 +64,7 @@ a:hover { color: #f5c168; }
 .hero {
   min-height: 92vh;
   display: flex; align-items: center; justify-content: center; text-align: center;
-  background: radial-gradient(ellipse 65% 50% at 50% 48%, rgba(13,11,8,0.72) 0%, rgba(13,11,8,0) 70%), linear-gradient(rgba(13,11,8,0.55), rgba(13,11,8,0.82)), url("images/skull-texas.png") center/contain no-repeat, #0d0b08;
+  background: linear-gradient(rgba(13,11,8,0.62), rgba(13,11,8,0.88)), url("images/hero.jpg") center/cover no-repeat;
   padding: 6rem 1.25rem 4rem;
 }
 .hero-inner { max-width: 760px; }
@@ -142,6 +142,7 @@ a:hover { color: #f5c168; }
 }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--amber); }
 .form-error { color: #e86a5a; margin-bottom: 1rem; }
+.form-success { color: #7fc46a; margin-bottom: 1rem; }
 
 /* Merch */
 .merch-soon {

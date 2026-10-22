@@ -1,36 +1,21 @@
-// Booking form -> pre-addressed email to the band's booking inbox.
-// Static-site safe: no server, no third party. Submissions go only to
-// booking@kendallhuntandtheshooters.com via the visitor's own email app.
+// Booking form -> delivered to the band's booking inbox via FormSubmit
+// (serverless form backend for static sites). Only the contact field is
+// required: a venue can reach out with nothing but a way to reply.
+// If the send fails, the visitor gets the direct email + phone instead
+// of a dead end.
 (function () {
   var form = document.getElementById('booking-form');
   if (!form) return;
 
-  var RECIPIENT = form.getAttribute('data-recipient') || 'booking@kendallhuntandtheshooters.com';
+  var ENDPOINT = 'https://formsubmit.co/ajax/booking@kendallhuntandtheshooters.com';
   var err = document.getElementById('form-error');
+  var okMsg = document.getElementById('form-success');
+  var btn = document.getElementById('bf-submit');
 
   function val(id) {
     var el = document.getElementById(id);
     return el ? el.value.trim() : '';
   }
-
-  // Exposed for verification: builds the exact mailto URL from form data.
-  function composeBookingEmail(d) {
-    var subject = 'Booking inquiry — ' + d.name + (d.date ? ' — ' + d.date : '');
-    var lines = [
-      'Name: ' + d.name,
-      'Contact: ' + d.contact,
-      'Event date: ' + d.date,
-      'Venue / city: ' + d.venue,
-      'Event type: ' + d.type,
-      '',
-      'Details:',
-      d.details || '(none provided)'
-    ];
-    return 'mailto:' + RECIPIENT +
-      '?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(lines.join('\n'));
-  }
-  window.composeBookingEmail = composeBookingEmail;
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -42,9 +27,43 @@
       type: val('bf-type'),
       details: val('bf-details')
     };
-    var ok = d.name && d.contact && d.date && d.venue;
-    err.hidden = !!ok;
-    if (!ok) return;
-    window.location.href = composeBookingEmail(d);
+    if (!d.contact) {
+      err.textContent = 'We just need one way to reach you — drop an email or phone number in the contact box and hit send again.';
+      err.hidden = false;
+      okMsg.hidden = true;
+      document.getElementById('bf-contact').focus();
+      return;
+    }
+    err.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: d.name || '(not given)',
+        contact: d.contact,
+        date: d.date || '(flexible / not set yet)',
+        venue: d.venue || '(not given)',
+        type: d.type,
+        details: d.details || '(none provided)',
+        _subject: 'Booking inquiry from the website' + (d.name ? ' — ' + d.name : '') + (d.date ? ' — ' + d.date : ''),
+        _template: 'table',
+        _captcha: 'false',
+        _honey: ''
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('send failed');
+      return r.json();
+    }).then(function () {
+      okMsg.hidden = false;
+      btn.textContent = 'Sent ✓';
+      form.reset();
+    }).catch(function () {
+      btn.disabled = false;
+      btn.textContent = 'Send Booking Inquiry';
+      err.textContent = "That didn't go through — please email booking@kendallhuntandtheshooters.com or call/text 806-440-3621 and we'll take it from there.";
+      err.hidden = false;
+    });
   });
 })();
