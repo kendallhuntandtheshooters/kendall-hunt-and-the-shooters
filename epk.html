@@ -110,12 +110,32 @@
 <section class="section section-dark" id="shows">
   <div class="wrap">
     <h2>Upcoming Shows</h2>
-    <script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
-    <a class="bit-widget-initializer"
-      data-artist-name="id_15498528"
-      data-app-id="23af1200bcc423ae8e124d17847c0497"
-    ></a>
+    <div class="shows" id="bit-events">
+      <p class="muted">Loading shows…</p>
+    </div>
+    <p class="center" style="margin-top:1.25rem"><a class="btn btn-ghost" href="https://www.bandsintown.com/a/15498528">Follow on Bandsintown for show alerts</a></p>
   </div>
+  <script>
+  (function(){
+    var el = document.getElementById('bit-events');
+    fetch('https://rest.bandsintown.com/artists/id_15498528/events?app_id=23af1200bcc423ae8e124d17847c0497')
+      .then(function(r){ return r.json(); })
+      .then(function(events){
+        if(!events || !events.length){ el.innerHTML = '<p class="muted">No dates on the calendar right now. Check back soon.</p>'; return; }
+        var months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+        var days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+        el.innerHTML = events.map(function(ev){
+          var d = new Date(ev.datetime);
+          var venue = ev.venue || {};
+          var place = [venue.city, venue.region].filter(Boolean).join(', ');
+          var time = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+          var badge = /acoustic/i.test(ev.description || '') ? '<span class="badge">Solo</span>' : '';
+          return '<article class="show"><div class="show-date"><span class="dow">'+days[d.getDay()]+'</span><span class="day">'+d.getDate()+'</span><span class="mon">'+months[d.getMonth()]+'</span></div><div class="show-info"><h3>'+(venue.name||'Venue TBA')+'</h3><p>'+place+' — '+time+'</p>'+badge+'</div></article>';
+        }).join('');
+      })
+      .catch(function(){ el.innerHTML = '<p class="muted">Show dates live on <a href="https://www.bandsintown.com/a/15498528">Bandsintown</a>.</p>'; });
+  })();
+  </script>
 </section>
 
 <section class="section" id="booking">
@@ -127,6 +147,6 @@
 </section>
 
 <script data-goatcounter="https://kendallhunt.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
