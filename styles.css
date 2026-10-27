@@ -187,19 +187,18 @@ a:hover { color: #f5c168; }
   .gallery img { height: 150px; }
 }
 
-/* Filmstrip gallery: one row, scroll/drag sideways, click for the big viewer */
-.filmstrip-wrap { position: relative; margin-top: 1.5rem; }
-.filmstrip { display: flex; gap: 0.75rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.6rem; scrollbar-width: thin; scrollbar-color: var(--amber-dark) var(--bg2); }
-.filmstrip::-webkit-scrollbar { height: 8px; }
-.filmstrip::-webkit-scrollbar-thumb { background: var(--amber-dark); border-radius: 4px; }
-.filmstrip::-webkit-scrollbar-track { background: var(--bg2); }
-.filmstrip img { height: 260px; width: auto; flex: 0 0 auto; scroll-snap-align: start; border-radius: 12px; border: 1px solid var(--line); cursor: zoom-in; }
-.filmstrip.dragging { scroll-snap-type: none; cursor: grabbing; }
-.filmstrip.dragging img { cursor: grabbing; }
-.fs-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; background: rgba(20,17,12,.72); border: 1px solid var(--line); color: var(--ink); font-size: 2.2rem; line-height: 1; width: 3rem; height: 3rem; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s ease; }
-.filmstrip-wrap:hover .fs-nav, .filmstrip-wrap:focus-within .fs-nav { opacity: 1; }
-.fs-prev { left: 10px; }
-.fs-next { right: 10px; }
-.fs-nav:hover { color: var(--amber); }
-@media (hover: none) { .fs-nav { opacity: .92; } }
-@media (max-width: 640px) { .filmstrip img { height: 190px; } .fs-nav { width: 2.5rem; height: 2.5rem; font-size: 1.8rem; } }
+/* Coverflow carousel: the gallery centerpiece. Center photo big and lit,
+   neighbours angled away in 3D so it reads as a gallery the second you see it. */
+.carousel { position: relative; height: 360px; margin-top: 1.5rem; perspective: 1150px; overflow: hidden; outline: none; user-select: none; -webkit-user-select: none; touch-action: pan-y; background: radial-gradient(ellipse 70% 90% at 50% 42%, #241c10 0%, var(--bg) 68%); border-radius: 16px; }
+.carousel-track { position: absolute; inset: 0; transform-style: preserve-3d; }
+.carousel-track img { position: absolute; left: 50%; top: 50%; width: min(470px, 66vw); aspect-ratio: 3 / 2; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); cursor: pointer; -webkit-user-drag: none; -webkit-box-reflect: below 8px linear-gradient(transparent 64%, rgba(255,255,255,.14)); will-change: transform; }
+.carousel-track img.is-active { border-color: var(--amber-dark); box-shadow: 0 34px 60px rgba(0,0,0,.6), 0 0 44px rgba(232,163,61,.16); cursor: zoom-in; }
+.carousel-track img:not(.is-active):hover { filter: brightness(1.12) saturate(1.05) !important; }
+.car-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 200; background: rgba(20,17,12,.78); border: 1px solid var(--amber-dark); color: var(--amber); font-size: 2.3rem; line-height: 1; width: 3.1rem; height: 3.1rem; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s ease, transform .2s ease; }
+.car-nav:hover { background: rgba(60,42,14,.9); transform: translateY(-50%) scale(1.08); }
+.car-prev { left: 14px; }
+.car-next { right: 14px; }
+.car-bar { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-top: 0.7rem; flex-wrap: wrap; }
+.car-count { color: var(--amber); font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.car-hint { color: var(--muted); font-size: 0.9rem; }
+@media (max-width: 640px) { .carousel { height: 250px; } .car-nav { width: 2.6rem; height: 2.6rem; font-size: 1.9rem; } }

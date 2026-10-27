@@ -71,7 +71,7 @@
 // Photo lightbox: click any gallery photo, then step through the set
 // with the arrows, keyboard, or a swipe.
 (function () {
-  var shots = Array.prototype.slice.call(document.querySelectorAll('.gallery img, .filmstrip img'));
+  var shots = Array.prototype.slice.call(document.querySelectorAll('.gallery img, .carousel-track img'));
   var box = document.getElementById('lightbox');
   if (!shots.length || !box) return;
   var img = document.getElementById('lb-img');
@@ -88,6 +88,7 @@
   function close() { box.hidden = true; document.body.style.overflow = ''; img.src = ''; }
 
   shots.forEach(function (s, n) { s.addEventListener('click', function () { open(n); }); });
+  document.addEventListener('kh-open-lightbox', function (e) { open(e.detail); });
   document.getElementById('lb-close').addEventListener('click', close);
   document.getElementById('lb-prev').addEventListener('click', function () { show(i - 1); });
   document.getElementById('lb-next').addEventListener('click', function () { show(i + 1); });
@@ -107,31 +108,95 @@
   }, { passive: true });
 })();
 
-// Filmstrip: arrow buttons + drag to scroll sideways. A real drag
-// suppresses the click so it does not also open the lightbox.
+// Coverflow carousel: photos fan out in 3D around the center shot.
+// Drag (with the native image-drag disabled so it grabs properly),
+// arrows, wheel, keys, or tap a side photo to bring it to the middle.
+// Tapping the middle photo opens the lightbox.
 (function () {
-  var strip = document.getElementById('filmstrip');
-  if (!strip) return;
-  var prev = document.getElementById('fs-prev');
-  var next = document.getElementById('fs-next');
-  function step(dir) { strip.scrollBy({ left: dir * strip.clientWidth * 0.85, behavior: 'smooth' }); }
-  if (prev) prev.addEventListener('click', function () { step(-1); });
-  if (next) next.addEventListener('click', function () { step(1); });
-  var down = false, startX = 0, startScroll = 0, moved = false;
-  strip.addEventListener('pointerdown', function (e) {
-    down = true; moved = false; startX = e.clientX; startScroll = strip.scrollLeft;
-    strip.classList.add('dragging');
+  var stage = document.getElementById('carousel');
+  var track = document.getElementById('carousel-track');
+  if (!stage || !track) return;
+  var items = Array.prototype.slice.call(track.querySelectorAll('img'));
+  var count = document.getElementById('car-count');
+  var active = 0, dragPx = 0, anim = true;
+
+  items.forEach(function (im) { im.draggable = false; });
+  track.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+  function layout() {
+    var w = items[0].getBoundingClientRect().width || 470;
+    var stepX = w * 0.60;
+    items.forEach(function (im, n) {
+      var off = n - active;
+      var a = Math.abs(off);
+      var x = off * stepX + dragPx;
+      var rot = Math.max(-52, Math.min(52, off * -34));
+      var sc = Math.max(0.45, 1 - a * 0.17);
+      im.style.transform = 'translate(-50%, -50%) translateX(' + x + 'px) rotateY(' + rot + 'deg) scale(' + sc + ')';
+      im.style.zIndex = String(100 - a);
+      im.style.opacity = a > 3 ? '0' : '1';
+      im.style.pointerEvents = a > 3 ? 'none' : 'auto';
+      im.style.filter = 'brightness(' + Math.max(0.35, 1 - a * 0.22) + ')';
+      im.style.transition = anim ? 'transform .55s cubic-bezier(.22,.9,.28,1), filter .55s ease, opacity .55s ease' : 'none';
+      im.classList.toggle('is-active', off === 0);
+    });
+    if (count) count.textContent = 'Photo ' + (active + 1) + ' of ' + items.length;
+  }
+  function go(n) {
+    active = Math.max(0, Math.min(items.length - 1, n));
+    dragPx = 0; anim = true; layout();
+  }
+
+  document.getElementById('car-prev').addEventListener('click', function () { go(active - 1); });
+  document.getElementById('car-next').addEventListener('click', function () { go(active + 1); });
+
+  items.forEach(function (im, n) {
+    im.addEventListener('click', function () {
+      if (suppressClick) return;
+      if (n === active) document.dispatchEvent(new CustomEvent('kh-open-lightbox', { detail: n }));
+      else go(n);
+    });
   });
-  strip.addEventListener('pointermove', function (e) {
+
+  // Drag: pointer capture on the stage, native image drag is off.
+  var down = false, startX = 0, suppressClick = false;
+  stage.addEventListener('pointerdown', function (e) {
+    if (e.target.closest('.car-nav')) return;
+    down = true; suppressClick = false; startX = e.clientX; anim = false;
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove', function (e) {
     if (!down) return;
-    var dx = e.clientX - startX;
-    if (Math.abs(dx) > 6) moved = true;
-    strip.scrollLeft = startScroll - dx;
+    dragPx = e.clientX - startX;
+    if (Math.abs(dragPx) > 6) suppressClick = true;
+    layout();
   });
-  function endDrag() { down = false; strip.classList.remove('dragging'); }
-  strip.addEventListener('pointerup', endDrag);
-  strip.addEventListener('pointercancel', endDrag);
-  strip.addEventListener('click', function (e) {
-    if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
-  }, true);
+  function endDrag() {
+    if (!down) return;
+    down = false;
+    var w = items[0].getBoundingClientRect().width || 470;
+    var steps = Math.round(-dragPx / (w * 0.60));
+    go(active + Math.max(-3, Math.min(3, steps)));
+    setTimeout(function () { suppressClick = false; }, 50);
+  }
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+
+  var wheelLock = 0;
+  stage.addEventListener('wheel', function (e) {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    var now = Date.now();
+    if (now - wheelLock < 220) return;
+    wheelLock = now;
+    go(active + (e.deltaX > 0 ? 1 : -1));
+  }, { passive: false });
+
+  stage.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') go(active - 1);
+    if (e.key === 'ArrowRight') go(active + 1);
+  });
+
+  window.addEventListener('resize', layout);
+  layout();
 })();
