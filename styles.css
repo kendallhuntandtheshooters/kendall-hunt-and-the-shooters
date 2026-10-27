@@ -180,3 +180,9 @@ a:hover { color: #f5c168; }
 .lb-next { right: 16px; }
 .lb-count { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); color: var(--muted); font-size: .95rem; letter-spacing: .08em; }
 @media (max-width: 640px) { .lb-nav { width: 2.6rem; height: 2.6rem; font-size: 2rem; } .lb-prev { left: 8px; } .lb-next { right: 8px; } }
+
+/* Phones: two photos per row so the gallery is not one long column */
+@media (max-width: 640px) {
+  .gallery { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+  .gallery img { height: 150px; }
+}
