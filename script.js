@@ -67,3 +67,42 @@
     });
   });
 })();
+
+// Photo lightbox: click any gallery photo, then step through the set
+// with the arrows, keyboard, or a swipe.
+(function () {
+  var shots = Array.prototype.slice.call(document.querySelectorAll('.gallery img'));
+  var box = document.getElementById('lightbox');
+  if (!shots.length || !box) return;
+  var img = document.getElementById('lb-img');
+  var count = document.getElementById('lb-count');
+  var i = 0, startX = null;
+
+  function show(n) {
+    i = (n + shots.length) % shots.length;
+    img.src = shots[i].src;
+    img.alt = shots[i].alt || '';
+    count.textContent = (i + 1) + ' / ' + shots.length;
+  }
+  function open(n) { show(n); box.hidden = false; document.body.style.overflow = 'hidden'; }
+  function close() { box.hidden = true; document.body.style.overflow = ''; img.src = ''; }
+
+  shots.forEach(function (s, n) { s.addEventListener('click', function () { open(n); }); });
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click', function () { show(i - 1); });
+  document.getElementById('lb-next').addEventListener('click', function () { show(i + 1); });
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (box.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(i - 1);
+    if (e.key === 'ArrowRight') show(i + 1);
+  });
+  box.addEventListener('touchstart', function (e) { startX = e.changedTouches[0].clientX; }, { passive: true });
+  box.addEventListener('touchend', function (e) {
+    if (startX === null) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1);
+    startX = null;
+  }, { passive: true });
+})();
