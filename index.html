@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kendall Hunt &amp; The Shooters — Texas Country | Red Dirt | Live Music</title>
 <meta name="description" content="Kendall Hunt & The Shooters: high-energy Texas country and red dirt band from Forney, TX. Upcoming shows, booking, and merch.">
-<link rel="stylesheet" href="styles.css?v=20261027b">
+<link rel="stylesheet" href="styles.css?v=20261027c">
 </head>
 <body>
 
@@ -62,8 +62,10 @@
 <section class="section" id="photos">
   <div class="wrap">
     <h2>Live Shots</h2>
-    <p class="muted">On stage — no studio tricks, just the band doing what it does. Click any photo to look through the set.</p>
-    <div class="gallery">
+    <p class="muted">On stage — no studio tricks, just the band doing what it does. Drag or scroll sideways through the photos, and click any one to see it big.</p>
+    <div class="filmstrip-wrap">
+      <button class="fs-nav fs-prev" id="fs-prev" aria-label="Scroll photos back">&#8249;</button>
+      <div class="filmstrip" id="filmstrip">
       <img src="images/live-1.jpg" alt="Kendall Hunt and The Shooters performing live" loading="lazy">
       <img src="images/live-2.jpg" alt="Kendall Hunt and The Shooters performing live" loading="lazy">
       <img src="images/live-3.jpg" alt="Kendall Hunt and The Shooters performing live" loading="lazy">
@@ -128,6 +130,8 @@
       <img src="images/gallery-54.jpg" alt="Kendall Hunt and The Shooters performing live" loading="lazy">
       <img src="images/gallery-55.jpg" alt="Kendall Hunt and The Shooters performing live" loading="lazy">
       <img src="images/gallery-56.jpg" alt="Kendall Hunt and The Shooters performing live" loading="lazy">
+      </div>
+      <button class="fs-nav fs-next" id="fs-next" aria-label="Scroll photos forward">&#8250;</button>
     </div>
   </div>
 </section>
@@ -326,7 +330,7 @@
   <div class="lb-count" id="lb-count"></div>
 </div>
 
-<script src="script.js?v=20261027b"></script>
+<script src="script.js?v=20261027c"></script>
 <script data-goatcounter="https://kendallhunt.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>

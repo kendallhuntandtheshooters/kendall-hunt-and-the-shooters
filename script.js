@@ -71,7 +71,7 @@
 // Photo lightbox: click any gallery photo, then step through the set
 // with the arrows, keyboard, or a swipe.
 (function () {
-  var shots = Array.prototype.slice.call(document.querySelectorAll('.gallery img'));
+  var shots = Array.prototype.slice.call(document.querySelectorAll('.gallery img, .filmstrip img'));
   var box = document.getElementById('lightbox');
   if (!shots.length || !box) return;
   var img = document.getElementById('lb-img');
@@ -105,4 +105,33 @@
     if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1);
     startX = null;
   }, { passive: true });
+})();
+
+// Filmstrip: arrow buttons + drag to scroll sideways. A real drag
+// suppresses the click so it does not also open the lightbox.
+(function () {
+  var strip = document.getElementById('filmstrip');
+  if (!strip) return;
+  var prev = document.getElementById('fs-prev');
+  var next = document.getElementById('fs-next');
+  function step(dir) { strip.scrollBy({ left: dir * strip.clientWidth * 0.85, behavior: 'smooth' }); }
+  if (prev) prev.addEventListener('click', function () { step(-1); });
+  if (next) next.addEventListener('click', function () { step(1); });
+  var down = false, startX = 0, startScroll = 0, moved = false;
+  strip.addEventListener('pointerdown', function (e) {
+    down = true; moved = false; startX = e.clientX; startScroll = strip.scrollLeft;
+    strip.classList.add('dragging');
+  });
+  strip.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var dx = e.clientX - startX;
+    if (Math.abs(dx) > 6) moved = true;
+    strip.scrollLeft = startScroll - dx;
+  });
+  function endDrag() { down = false; strip.classList.remove('dragging'); }
+  strip.addEventListener('pointerup', endDrag);
+  strip.addEventListener('pointercancel', endDrag);
+  strip.addEventListener('click', function (e) {
+    if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+  }, true);
 })();
