@@ -190,7 +190,7 @@ a:hover { color: #f5c168; }
 /* Coverflow carousel: the gallery centerpiece. Center photo big and lit,
    neighbours angled away in 3D so it reads as a gallery the second you see it. */
 .carousel { position: relative; height: 360px; margin-top: 1.5rem; perspective: 1150px; overflow: hidden; outline: none; user-select: none; -webkit-user-select: none; touch-action: pan-y; background: radial-gradient(ellipse 70% 90% at 50% 42%, #241c10 0%, var(--bg) 68%); border-radius: 16px; }
-.carousel-track { position: absolute; inset: 0; transform-style: preserve-3d; }
+.carousel-track { position: absolute; inset: 0; }
 .carousel-track img { position: absolute; left: 50%; top: 50%; width: min(470px, 66vw); aspect-ratio: 3 / 2; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); cursor: pointer; -webkit-user-drag: none; -webkit-box-reflect: below 8px linear-gradient(transparent 64%, rgba(255,255,255,.14)); will-change: transform; }
 .carousel-track img.is-active { border-color: var(--amber-dark); box-shadow: 0 34px 60px rgba(0,0,0,.6), 0 0 44px rgba(232,163,61,.16); cursor: zoom-in; }
 .carousel-track img:not(.is-active):hover { filter: brightness(1.12) saturate(1.05) !important; }
