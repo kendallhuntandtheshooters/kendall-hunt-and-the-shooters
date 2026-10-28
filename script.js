@@ -134,7 +134,8 @@
       var x = off * stepX + dragPx;
       var rot = Math.max(-52, Math.min(52, off * -34));
       var sc = Math.max(0.45, 1 - a * 0.17);
-      im.style.transform = 'translate(-50%, -50%) translateX(' + x + 'px) rotateY(' + rot + 'deg) scale(' + sc + ')';
+      var tz = 60 - a * 95; // real depth: center closest to viewer, neighbours recede
+      im.style.transform = 'translate(-50%, -50%) translateX(' + x + 'px) translateZ(' + tz + 'px) rotateY(' + rot + 'deg) scale(' + sc + ')';
       im.style.zIndex = String(100 - a);
       im.style.opacity = a > 3 ? '0' : '1';
       im.style.pointerEvents = a > 3 ? 'none' : 'auto';
