@@ -87,7 +87,9 @@
   function open(n) { show(n); box.hidden = false; document.body.style.overflow = 'hidden'; }
   function close() { box.hidden = true; document.body.style.overflow = ''; img.src = ''; }
 
-  shots.forEach(function (s, n) { s.addEventListener('click', function () { open(n); }); });
+  shots.forEach(function (s, n) {
+    if (s.closest('.gallery')) s.addEventListener('click', function () { open(n); });
+  });
   document.addEventListener('kh-open-lightbox', function (e) { open(e.detail); });
   document.getElementById('lb-close').addEventListener('click', close);
   document.getElementById('lb-prev').addEventListener('click', function () { show(i - 1); });
@@ -150,13 +152,6 @@
   document.getElementById('car-prev').addEventListener('click', function () { go(active - 1); });
   document.getElementById('car-next').addEventListener('click', function () { go(active + 1); });
 
-  items.forEach(function (im, n) {
-    im.addEventListener('click', function () {
-      if (suppressClick) return;
-      if (n === active) document.dispatchEvent(new CustomEvent('kh-open-lightbox', { detail: n }));
-      else go(n);
-    });
-  });
 
   // Drag: pointer capture on the stage, native image drag is off.
   var down = false, startX = 0, suppressClick = false;
@@ -179,7 +174,16 @@
     go(active + Math.max(-3, Math.min(3, steps)));
     setTimeout(function () { suppressClick = false; }, 50);
   }
-  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointerup', function (e) {
+    var wasTap = down && !suppressClick;
+    endDrag();
+    if (!wasTap) return;
+    var el = document.elementFromPoint(e.clientX, e.clientY);
+    var n = items.indexOf(el);
+    if (n < 0) return;
+    if (n === active) document.dispatchEvent(new CustomEvent('kh-open-lightbox', { detail: n }));
+    else go(n);
+  });
   stage.addEventListener('pointercancel', endDrag);
 
   var wheelLock = 0;
