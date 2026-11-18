@@ -5,14 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EPK — Kendall Hunt &amp; The Shooters | Texas Country / Red Dirt | Forney, TX</title>
 <meta name="description" content="Electronic press kit for Kendall Hunt & The Shooters: Texas country and red dirt band from Forney, TX. Live performance video, bio, photos, and booking.">
-<link rel="stylesheet" href="styles.css?v=20261027e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261117a">
 </head>
 <body>
 
 <header class="site-header">
   <nav class="nav">
     <a class="brand" href="https://kendallhuntandtheshooters.com">Kendall Hunt &amp; The Shooters</a>
-    <div class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
       <a href="#live">Live</a>
       <a href="#acoustic">Acoustic</a>
       <a href="#photos">Photos</a>
@@ -33,10 +37,12 @@
       <a class="btn btn-ghost" href="#live">Watch Live</a>
     </div>
   </div>
+  <a class="scroll-cue" href="#bio" aria-label="Scroll down"><span></span></a>
 </section>
 
-<section class="section" id="bio">
+<section class="section reveal" id="bio">
   <div class="wrap">
+    <p class="eyebrow">The Story</p>
     <h2>Bio</h2>
     <div class="about-grid">
       <img src="images/epk.jpg" alt="Kendall Hunt performing live" class="about-photo">
@@ -57,8 +63,9 @@
   </div>
 </section>
 
-<section class="section section-dark" id="live">
+<section class="section section-dark reveal" id="live">
   <div class="wrap">
+    <p class="eyebrow">Video</p>
     <h2>Live — Full Band</h2>
     <!-- VIDEO SLOT 1: Filthy McNasty's (already public on YouTube) -->
     <div class="video-wrap">
@@ -75,16 +82,18 @@
   </div>
 </section>
 
-<section class="section" id="acoustic">
+<section class="section reveal" id="acoustic">
   <div class="wrap">
+    <p class="eyebrow">Solo</p>
     <h2>Kendall Acoustic</h2>
     <p class="muted">Kendall also performs solo acoustic shows, just a voice, a guitar, and the songs the way they were written. Live acoustic performances are being added here from his October 24, 2026 show at Big Fella's Ice House in Mansfield, Texas.</p>
     <!-- ACOUSTIC SLOTS 1-3: filled from the Sat Oct 24, 2026 Big Fella's recording after the show. Upload to YouTube, then embed here. -->
   </div>
 </section>
 
-<section class="section section-dark" id="photos">
+<section class="section section-dark reveal" id="photos">
   <div class="wrap">
+    <p class="eyebrow">Gallery</p>
     <h2>Live Shots</h2>
     <div class="gallery">
       <img src="images/live-1.jpg" alt="Kendall Hunt and The Shooters performing live" loading="lazy">
@@ -97,8 +106,9 @@
   </div>
 </section>
 
-<section class="section" id="listen">
+<section class="section reveal" id="listen">
   <div class="wrap narrow">
+    <p class="eyebrow">The Music</p>
     <h2>Listen</h2>
     <div class="spotify-wrap">
       <iframe src="https://open.spotify.com/embed/artist/64DI5R9bbIJTLD8GgX17do" title="Kendall Hunt and The Shooters on Spotify" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -107,8 +117,9 @@
   </div>
 </section>
 
-<section class="section section-dark" id="shows">
+<section class="section section-dark reveal" id="shows">
   <div class="wrap">
+    <p class="eyebrow">On Stage</p>
     <h2>Upcoming Shows</h2>
     <div class="shows" id="bit-events">
       <p class="muted">Loading shows…</p>
@@ -138,8 +149,9 @@
   </script>
 </section>
 
-<section class="section" id="booking">
+<section class="section reveal" id="booking">
   <div class="wrap narrow">
+    <p class="eyebrow">Get In Touch</p>
     <h2>Booking</h2>
     <p class="center">Booking: <a href="mailto:booking@kendallhuntandtheshooters.com">booking@kendallhuntandtheshooters.com</a> · <a href="tel:+18064403621">806-440-3621</a></p>
     <p class="center" style="margin-top:1.25rem"><a class="btn btn-primary" href="https://kendallhuntandtheshooters.com/#booking">Booking Inquiry Form</a></p>
@@ -155,6 +167,6 @@
   <div class="lb-count" id="lb-count"></div>
 </div>
 
-<script src="script.js?v=20261027f"></script>
+<script src="script.js?v=20261117a"></script>
 </body>
 </html>

@@ -5,14 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kendall Hunt &amp; The Shooters — Texas Country | Red Dirt | Live Music</title>
 <meta name="description" content="Kendall Hunt & The Shooters: high-energy Texas country and red dirt band from Forney, TX. Upcoming shows, booking, and merch.">
-<link rel="stylesheet" href="styles.css?v=20261027e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=20261117a">
 </head>
 <body>
 
 <header class="site-header">
   <nav class="nav">
     <a class="brand" href="#top">Kendall Hunt &amp; The Shooters</a>
-    <div class="nav-links">
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="nav-links">
       <a href="#about">About</a>
       <a href="#photos">Photos</a>
       <a href="/epk">EPK</a>
@@ -37,10 +41,12 @@
       <a class="btn btn-ghost" href="https://shop.kendallhuntandtheshooters.com">Merch</a>
     </div>
   </div>
+  <a class="scroll-cue" href="#about" aria-label="Scroll down"><span></span></a>
 </section>
 
-<section class="section" id="about">
+<section class="section reveal" id="about">
   <div class="wrap">
+    <p class="eyebrow">About</p>
     <h2>The Band</h2>
     <div class="about-grid">
       <img src="images/about.jpg" alt="Kendall Hunt and The Shooters live on stage" class="about-photo">
@@ -59,8 +65,9 @@
   </div>
 </section>
 
-<section class="section" id="photos">
+<section class="section reveal" id="photos">
   <div class="wrap">
+    <p class="eyebrow">Gallery</p>
     <h2>Live Shots</h2>
     <p class="muted">On stage — no studio tricks, just the band doing what it does.</p>
     <div class="carousel" id="carousel" tabindex="0" aria-label="Photo gallery carousel">
@@ -137,8 +144,9 @@
   </div>
 </section>
 
-<section class="section" id="watch">
+<section class="section reveal" id="watch">
   <div class="wrap">
+    <p class="eyebrow">Video</p>
     <h2>Watch Us Live</h2>
     <div class="video-wrap">
       <iframe src="https://www.youtube.com/embed/jRaX93yEL8g" title="Kendall Hunt and The Shooters live" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -149,8 +157,9 @@
   </div>
 </section>
 
-<section class="section section-dark" id="listen">
+<section class="section section-dark reveal" id="listen">
   <div class="wrap narrow">
+    <p class="eyebrow">The Music</p>
     <h2>Listen</h2>
     <p class="muted center">Singles: &ldquo;Blacked Out&rdquo; &middot; &ldquo;Broken Town&rdquo; &middot; &ldquo;Too Damn Good&rdquo;</p>
     <div class="spotify-wrap">
@@ -160,8 +169,9 @@
   </div>
 </section>
 
-<section class="section" id="shows">
+<section class="section reveal" id="shows">
   <div class="wrap">
+    <p class="eyebrow">On Stage</p>
     <h2>Upcoming Shows</h2>
     <p class="muted">Confirmed dates — come see us.</p>
     <div class="shows">
@@ -250,8 +260,9 @@
   </div>
 </section>
 
-<section class="section section-dark" id="booking">
+<section class="section section-dark reveal" id="booking">
   <div class="wrap narrow">
+    <p class="eyebrow">Booking</p>
     <h2>Book the Band</h2>
     <p>Bars, rodeos, city events, private parties, festivals — tell us about your date and we'll take it from there.</p>
     <form id="booking-form" action="https://formsubmit.co/booking@kendallhuntandtheshooters.com" method="POST" novalidate>
@@ -301,8 +312,9 @@
   </div>
 </section>
 
-<section class="section" id="merch">
+<section class="section reveal" id="merch">
   <div class="wrap narrow center">
+    <p class="eyebrow">The Store</p>
     <h2>Merch</h2>
     <div class="merch-soon">
       <p class="big">🤠</p>
@@ -337,7 +349,7 @@
   <div class="lb-count" id="lb-count"></div>
 </div>
 
-<script src="script.js?v=20261027f"></script>
+<script src="script.js?v=20261117a"></script>
 <script data-goatcounter="https://kendallhunt.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>
